@@ -12,6 +12,8 @@
 
 #include "ChatServerLib.h"
 
+
+
 /*
 *	Function name:	receiveMessage
 *	Description:	read from file descriptor complete message
@@ -19,7 +21,7 @@
 *	Return:			int - bytes read, 0 if complete
 *                        -1 on fail
 */
-static int receiveMessage(int sockfd, const char *buffer, int size){
+static int receiveMessage(int sockfd, char *buffer, int size){
 
     int bytesLeft = size, bytesRead;
     while(bytesLeft > 0){
@@ -27,7 +29,7 @@ static int receiveMessage(int sockfd, const char *buffer, int size){
         bytesRead = read(sockfd, buffer, size);
         if(bytesRead < 0){
             //error reading
-            perror("error reading");
+            //perror("error reading");
             return -1;
         }else if(bytesRead == 0){
             //No more bytes left to read
@@ -47,12 +49,12 @@ static int receiveMessage(int sockfd, const char *buffer, int size){
 *	Return:			int - bytes read, 0 if complete
 *                        -1 on fail
 */
-static int sendMessage(int sockfd, const char *buffer, int size){
+static int sendMessage(int sockfd, char *buffer, int size){
     int bytesLeft = size, bytesWritten;
     while(bytesLeft > 0){
         bytesWritten = write(sockfd, buffer, size);
         if(bytesWritten < 0){
-            perrror("error writing");
+            //perrror("error writing");
             return -1;
         }else if(bytesWritten == 0){
             return 0;
@@ -65,19 +67,51 @@ static int sendMessage(int sockfd, const char *buffer, int size){
 
 
 //chat protocol parsing
-//check syntax
-//message has a nickname before message
-//ex. name: hello message
-char *createMessage(const char *name, const char *msg, int nameSize, int msgSize){
 
-   // char str = malloc()
-    //return name + ": "+msg;
+//name: msg(eof)
+//-1 on error
+//1 is too long message
+//0 on success
+int getInfo(struct messageInfo* msgStruct, char* buffer){
+	
+
+	int i = 0, err = 0;
+	while(*buffer != ':'){
+		
+		msgStruct->name[i] = (*buffer);
+		buffer++;
+		i++;
+	}
+	if(i <= 1){
+		//no name who sent this
+		//strcpy(msgStruct->name, "unknown");
+		msgStruct->name[0]= '\0';
+		msgStruct->nameSize = 0;
+		err = -1;
+	}else{
+		msgStruct->name[i]= '\0';
+		msgStruct->nameSize = i;
+		
+	}
+
+	i =0;
+	buffer += 2;
+	while(*buffer != '\0'){
+		msgStruct->msg[i] = (*buffer);
+		buffer++;
+		i++;
+	}
+	msgStruct->msg[i] = '\0';;
+	msgStruct->msgSize = i;
+	msgStruct->size = msgStruct->msgSize + msgStruct->nameSize + 3;
+	
+	return err;
 }
 
 //0 if name is good
 //-1 if name bad
 int *checkNickName(const char *name){
-
+	
 
     return 0;
 }

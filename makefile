@@ -1,11 +1,16 @@
+cc = gcc
 
-lib: ChatServerLib.o
-	ar rc lib.a ChatServerLib.o 
+test: libcs
+	$(cc) -o test testStr.c -L. -lcs
+	
 
-ChatServerLib.o: ChatServerLib.c
-	gcc -c ChatServerLib.c
+libcs: ChatServerLib.o
+	ar rc libcs.a ChatServerLib.o 
 
-#gcc -c ChatServerLib.h
+ChatServerLib.o: ChatServerLib.c ChatServerLib.h
+	$(cc) -c ChatServerLib.c
 
+clean:
+	\rm -f *.o libcs.a test
 
 
