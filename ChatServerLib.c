@@ -65,8 +65,7 @@ static int sendMessage(int sockfd, const char *buffer, int size){
 
 
 //chat protocol parsing
-//check syntax - form
-//check semantics - meaning
+//check syntax
 //message has a nickname before message
 //ex. name: hello message
 char *createMessage(const char *name, const char *msg, int nameSize, int msgSize){
@@ -74,4 +73,13 @@ char *createMessage(const char *name, const char *msg, int nameSize, int msgSize
    // char str = malloc()
     //return name + ": "+msg;
 }
+
+//0 if name is good
+//-1 if name bad
+int *checkNickName(const char *name){
+
+
+    return 0;
+}
+
 
