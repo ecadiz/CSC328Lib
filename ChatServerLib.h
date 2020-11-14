@@ -12,21 +12,40 @@
 #include <unistd.h>
 #include <string.h>
 #include <stdio.h>
+#include <sys/socket.h>
+#include <sys/types.h>
+#include <stdlib.h>
 
 //message maxSize = 1023
 //name maxSize = 32
 struct messageInfo{
-		char name[32];		//string of only name
-		char msg[1024]; //string of only message
-		int size;	//total size
-		int msgSize; //size of message
-		int nameSize; //size of name
+	int protocol;
+	char name[32];		//string of only name
+	char msg[1024]; //string of only message
+	int size;	//total size
+	int msgSize; //size of message
+	int nameSize; //size of name
 };
 
-static int receiveMessage(int sockfd, char *buffer, int size);
+enum Protocol{
+	HELLO,
+	BYE,
+	NICK,	
+	READY,
+	RETRY,
+	CHAT	//full message
+};
 
-static int sendMessage(int sockfd, char *buffer, int size);
+typedef enum Protocol Proto;
+
+//uses sendto instead of write
+int sendMessage(int sockfd, Proto pro, char*name, char* message, int nameSize, int messageSize);
+//uses recv instead of read
+int receiveMessage(int sockfd, void* buf, int size);
 
 int getInfo(struct messageInfo* msgStruct, char* buffer);
 
-int *checkNickName(const char *name);
+//old uses read and write
+static int readMessage(int sockfd, char *buffer, int size);
+static int writeMessage(int sockfd, char *buffer, int size);
+
