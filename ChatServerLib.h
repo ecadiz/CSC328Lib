@@ -16,15 +16,20 @@
 #include <sys/types.h>
 #include <stdlib.h>
 
-//message maxSize = 1023
-//name maxSize = 32
+
+
+#define MAXNAME 32
+#define MAXMESSAGE 1024
+//protocol int+ MAXNAME + : + MAXMESSAGE + 1(null)  
+//maxsize = 1 + 32 + 1 + 1024 + 1
+#define MAXSIZE 1059
+
 struct messageInfo{
 	int protocol;
-	char name[32];		//string of only name
-	char msg[1024]; //string of only message
-	int size;	//total size
-	int msgSize; //size of message
-	int nameSize; //size of name
+	char name[MAXNAME];	//string of only name
+	char msg[MAXMESSAGE]; //string of only message
+	int msgSize; //size of message -- does not include null kinda like strlen()
+	int nameSize; //size of name -- does not inculde null
 };
 
 enum Protocol{
@@ -44,6 +49,11 @@ int sendMessage(int sockfd, Proto pro, char*name, char* message, int nameSize, i
 int receiveMessage(int sockfd, void* buf, int size);
 
 int getInfo(struct messageInfo* msgStruct, char* buffer);
+
+int getProtocol(char* buffer);
+int getName();
+int getMessage();
+
 
 //old uses read and write
 static int readMessage(int sockfd, char *buffer, int size);
