@@ -20,21 +20,36 @@ int sendMessage(int sockfd, Proto pro, char* nameStr, char* messageStr, int name
 	int tempSize = 2;
 	char *tempBuf = NULL;
 	
+	int nameRealSize = 0;
+	int messageRealSize = 0;
+	while(nameStr[nameRealSize] != '\0'){
+		nameRealSize++;
+	}
+	while(messageStr[messageRealSize] != '\0'){
+		messageRealSize++;
+	}
+	//printf("\nnameRealSize: %i", nameRealSize);
+	//printf("\nmessageRealSize: %i", messageRealSize);
+	
+	
+	
 	switch (pro){
 		case 0:
 		case 1:
 		case 3:
 		case 4:
+			//send two anyway
 			//if(nameStr != NULL || messageStr != NULL){
 			//	printf("message will not be sent.");
 			//}
-			tempBuf = malloc(tempSize);
+			tempBuf = (char*)malloc(tempSize);
 			sprintf(tempBuf, "%i", pro);
 			tempBuf[tempSize- 1] = '\0';
 			break;
 		case 5:
 			//chat
-			tempSize = 1 + nameSize + 1 + messageSize + 1;			
+			
+			tempSize = 1 + nameRealSize + 1 + messageRealSize + 1;			
 			tempBuf = (char*)malloc(tempSize);
 			stpcpy(tempBuf, "5");
 			strcat(tempBuf, nameStr);
@@ -43,7 +58,7 @@ int sendMessage(int sockfd, Proto pro, char* nameStr, char* messageStr, int name
 			tempBuf[tempSize-1] = '\0';
 			break;
 		case 2:
-			tempSize = 2 + nameSize;
+			tempSize = 1 + nameRealSize + 1;
 			tempBuf = (char*)malloc(tempSize);
 			strcpy(tempBuf,  "2");
 			strcat(tempBuf, nameStr);
@@ -55,8 +70,10 @@ int sendMessage(int sockfd, Proto pro, char* nameStr, char* messageStr, int name
 			break;
 	};
 	
+	
 	//printf("\nTEMPBUF: [%s]",tempBuf);
 	//printf("\ntempSize: %i\n",tempSize);
+	
 
 	int bytesSent = send(sockfd, tempBuf, tempSize, 0);
 	//int bytesSent = writeMessage(sockfd, tempBuf, tempSize);

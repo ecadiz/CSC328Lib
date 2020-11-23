@@ -29,7 +29,9 @@ int main(){
 	//char str[] = "9water: bc ja s bc nm bsnm cbsbc";
 
 	//0, 1,3,4
-	printf("test1----------------------------------");
+	
+	printf("test1----------------------------------\n");
+	/*
 	char str[] = "1k e";
 	struct messageInfo info;
 	int x = getInfo(&info, str);
@@ -60,8 +62,15 @@ int main(){
 	
 	x = getInfo(&info, str4);
 	printMessageInfo(&info);
-
+	*/
 	//////////////////////////Other
+	
+	
+	
+	sendMessage(1, CHAT, "bob", "hello there", MAXNAME, MAXMESSAGE);
+	
+	
+	
 	/*int sockfd = open("testfile.txt", O_WRONLY | O_APPEND);
 	printf("\nS:%i\n", sockfd);
 	if(sockfd < 0){
