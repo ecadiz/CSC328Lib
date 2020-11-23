@@ -50,11 +50,6 @@ int receiveMessage(int sockfd, void* buf, int size);
 
 int getInfo(struct messageInfo* msgStruct, char* buffer);
 
-int getProtocol(char* buffer);
-int getName();
-int getMessage();
-
-
 //old uses read and write
 int readMessage(int sockfd, char *buffer, int size);
 int writeMessage(int sockfd, char *buffer, int size);

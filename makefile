@@ -1,8 +1,10 @@
 cc = gcc
 
 test: libcs
-	$(cc) -o test testStr.c -L. -lcs
-	
+	$(cc) -o beamchat client.c -L. -lcs -pthread
+
+#test: libcs
+#	$(cc) -o test testStr.c -L. -lcs
 
 libcs: ChatServerLib.o
 	ar rc libcs.a ChatServerLib.o 

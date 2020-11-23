@@ -67,9 +67,12 @@ int main(){
 	
 	
 	
-	sendMessage(1, CHAT, "bob", "hello there", MAXNAME, MAXMESSAGE);
+	sendMessage(1, CHAT, "bob", NULL, MAXNAME, MAXMESSAGE);
 	
-	
+	sendMessage(1, NICK, "keabs", NULL, MAXNAME, 0);
+
+	sendMessage(1, CHAT, NULL, "Hello There", MAXNAME, MAXMESSAGE);
+
 	
 	/*int sockfd = open("testfile.txt", O_WRONLY | O_APPEND);
 	printf("\nS:%i\n", sockfd);
@@ -87,7 +90,7 @@ int main(){
 	Proto proT;
 	char name[] = "Postit";
 	char message[] = "here is a message";
-	
+	 
 	//HELLO BYE READY...
 	x = sendMessage(sockfd, READY, NULL, NULL, 0, 0);
 	//printf("\nReturned: %i\n", x);

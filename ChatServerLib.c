@@ -16,48 +16,71 @@
 //return -1 if error
 //return bytes send
 int sendMessage(int sockfd, Proto pro, char* nameStr, char* messageStr, int nameSize, int messageSize){
-	
+
 	int tempSize = 2;
 	char *tempBuf = NULL;
-	
+	//printf("\nnameStr: %s", nameStr);
+	//printf("\nmessageStr: %s", messageStr);
 	int nameRealSize = 0;
 	int messageRealSize = 0;
-	while(nameStr[nameRealSize] != '\0'){
-		nameRealSize++;
+	if(nameStr){
+		char *tempName = nameStr;
+		while(*tempName != '\0'){
+			nameRealSize++;
+			tempName ++;
+		
+		}
 	}
-	while(messageStr[messageRealSize] != '\0'){
-		messageRealSize++;
+	
+	if(messageStr){
+		char *tempMessage = messageStr;
+		while(*tempMessage != '\0'){
+			tempMessage++;
+			messageRealSize++;
+		}
 	}
+	
+	//if the nameSize given is less than the real size of the name than an error is printed
+	if(nameRealSize > nameSize){
+		printf("Name is longer than allowed");
+		return -1;
+	}
+	//if the messageSize is less than the real size of the message than an error is printed
+	if(messageRealSize > messageSize){
+		printf("message is longer than allowed");
+		return -1;
+	}
+	
 	//printf("\nnameRealSize: %i", nameRealSize);
 	//printf("\nmessageRealSize: %i", messageRealSize);
 	
-	
-	
 	switch (pro){
-		case 0:
-		case 1:
-		case 3:
-		case 4:
-			//send two anyway
-			//if(nameStr != NULL || messageStr != NULL){
-			//	printf("message will not be sent.");
-			//}
+		case 0://HELLO
+		case 1://BYE
+		case 3://READY
+		case 4://RETRY
+			//only the protocol number and a null terminator are sent
 			tempBuf = (char*)malloc(tempSize);
 			sprintf(tempBuf, "%i", pro);
 			tempBuf[tempSize- 1] = '\0';
 			break;
-		case 5:
-			//chat
+		case 5://CHAT
+			//protocol number, name(if it is not null), " ", and the message(if it is not null)
+			tempSize = 1 + nameRealSize + 1;	
+			if(messageStr)
+				tempSize += messageRealSize + 1;
 			
-			tempSize = 1 + nameRealSize + 1 + messageRealSize + 1;			
 			tempBuf = (char*)malloc(tempSize);
 			stpcpy(tempBuf, "5");
-			strcat(tempBuf, nameStr);
+			if(nameStr)
+				strcat(tempBuf, nameStr);
 			strcat(tempBuf, " ");
-			strcat(tempBuf, messageStr);
+			if(messageStr)
+				strcat(tempBuf, messageStr);
 			tempBuf[tempSize-1] = '\0';
+			
 			break;
-		case 2:
+		case 2://NICK
 			tempSize = 1 + nameRealSize + 1;
 			tempBuf = (char*)malloc(tempSize);
 			strcpy(tempBuf,  "2");
@@ -71,8 +94,8 @@ int sendMessage(int sockfd, Proto pro, char* nameStr, char* messageStr, int name
 	};
 	
 	
-	//printf("\nTEMPBUF: [%s]",tempBuf);
-	//printf("\ntempSize: %i\n",tempSize);
+	printf("\nTEMPBUF: [%s]",tempBuf);
+	printf("\ntempSize: %i\n",tempSize);
 	
 
 	int bytesSent = send(sockfd, tempBuf, tempSize, 0);
@@ -204,6 +227,4 @@ int writeMessage(int sockfd, char *buffer, int size){
     }
     return size - bytesLeft;
 }
-
-
 
