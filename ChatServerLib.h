@@ -22,7 +22,7 @@
 #define MAXMESSAGE 1024
 //protocol int+ MAXNAME + : + MAXMESSAGE + 1(null)  
 //maxsize = 1 + 32 + 1 + 1024 + 1
-#define MAXSIZE 1059
+#define MAXSIZE (1 + MAXNAME + 1 + MAXMESSAGE + 1)
 
 struct messageInfo{
 	int protocol;
@@ -56,6 +56,6 @@ int getMessage();
 
 
 //old uses read and write
-static int readMessage(int sockfd, char *buffer, int size);
-static int writeMessage(int sockfd, char *buffer, int size);
+int readMessage(int sockfd, char *buffer, int size);
+int writeMessage(int sockfd, char *buffer, int size);
 

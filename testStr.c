@@ -2,6 +2,11 @@
 #include <stdio.h> 
 #include <string.h>
 
+#include <sys/types.h>
+#include <unistd.h>
+#include <fcntl.h>
+
+
 void printMessageInfo(struct messageInfo* info){
 	printf("\nprotocol: %i\n", info->protocol);
 	printf("name: %s\n", info->name);
@@ -23,10 +28,9 @@ int main(){
 	
 	//char str[] = "9water: bc ja s bc nm bsnm cbsbc";
 
-
 	//0, 1,3,4
 	printf("test1----------------------------------");
-	char str[] = "1";
+	char str[] = "1k e";
 	struct messageInfo info;
 	int x = getInfo(&info, str);
 	printMessageInfo(&info);
@@ -34,42 +38,58 @@ int main(){
 	printf("test2----------------------------------");
 	//2 = name
 	//protocol and name are sent
-	char str1[] = "2Adeel";
+	char str1[] = "2Adeel  s df h j k";
 	x = getInfo(&info, str1);
 	printMessageInfo(&info);
 
 	printf("test3----------------------------------");
 	//5 = chat
 	//protocol, name, and message are sent
-	char str2[] = "5Adeel:message";
+	char str2[] = "3riscksasd! risd!";
 	x = getInfo(&info, str2);
 	printMessageInfo(&info);
 	
 	
 	printf("test4----------------------------------");
-	char str3[] = "5Adeel: fp";
+	char str3[] = "5Rod Hello there";
 	x = getInfo(&info, str3);
 	printMessageInfo(&info);
 
+	printf("test5----------------------------------");
+	char str4[] = "5waterbottle:::::::Mcdonald hello";
+	
+	x = getInfo(&info, str4);
+	printMessageInfo(&info);
 
 	//////////////////////////Other
-	int sockfd = 1;
+	/*int sockfd = open("testfile.txt", O_WRONLY | O_APPEND);
+	printf("\nS:%i\n", sockfd);
+	if(sockfd < 0){
+		return 0;
+	}
+
+	printf("MAXSIZE: ");
+
+	//int[1059]
+	write(sockfd, "hello", 5);
+	//writeMessage(sockfd, "hello", 5);
+
+	//////////////////////////////////////////
 	Proto proT;
 	char name[] = "Postit";
 	char message[] = "here is a message";
 	
 	//HELLO BYE READY...
 	x = sendMessage(sockfd, READY, NULL, NULL, 0, 0);
-	printf("Returned: %i\n", x);
-	//
-	
+	//printf("\nReturned: %i\n", x);
+	//	
 	x = sendMessage(sockfd, CHAT, name, message, strlen(name), strlen(message));
-	printf("Returned: %i\n", x);
+	printf("\nReturned: %i\n", x);
+	x = sendMessage(sockfd, NICK, "asdasdas da  sd  ", "", strlen(name), strlen(message));
+	printf("\nReturned: %i\n", x);
 
-	x = sendMessage(sockfd, NICK, name, message, strlen(name), strlen(message));
-	printf("Returned: %i\n", x);
-
-
+	close(sockfd);
+	*/
 	return 0;
 
 }

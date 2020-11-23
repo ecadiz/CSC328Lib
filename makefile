@@ -13,4 +13,3 @@ ChatServerLib.o: ChatServerLib.c ChatServerLib.h
 clean:
 	\rm -f *.o libcs.a test
 
-

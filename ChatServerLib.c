@@ -25,10 +25,9 @@ int sendMessage(int sockfd, Proto pro, char* nameStr, char* messageStr, int name
 		case 1:
 		case 3:
 		case 4:
-			if(nameStr != NULL || messageStr != NULL){
-				printf("message will not be sent.");
-			}
-			
+			//if(nameStr != NULL || messageStr != NULL){
+			//	printf("message will not be sent.");
+			//}
 			tempBuf = malloc(tempSize);
 			sprintf(tempBuf, "%i", pro);
 			tempBuf[tempSize- 1] = '\0';
@@ -39,8 +38,8 @@ int sendMessage(int sockfd, Proto pro, char* nameStr, char* messageStr, int name
 			tempBuf = (char*)malloc(tempSize);
 			stpcpy(tempBuf, "5");
 			strcat(tempBuf, nameStr);
-			strcat(tempBuf, ":");
-			tempBuf = strcat(tempBuf, messageStr);
+			strcat(tempBuf, " ");
+			strcat(tempBuf, messageStr);
 			tempBuf[tempSize-1] = '\0';
 			break;
 		case 2:
@@ -60,6 +59,7 @@ int sendMessage(int sockfd, Proto pro, char* nameStr, char* messageStr, int name
 	//printf("\ntempSize: %i\n",tempSize);
 
 	int bytesSent = send(sockfd, tempBuf, tempSize, 0);
+	//int bytesSent = writeMessage(sockfd, tempBuf, tempSize);
 	if(bytesSent < 0){
 		perror("ERROR SENDING");
 		free(tempBuf);
@@ -71,6 +71,7 @@ int sendMessage(int sockfd, Proto pro, char* nameStr, char* messageStr, int name
 
 int receiveMessage(int sockfd, void* buf, int size){	
 	int bytesRead = recv(sockfd, buf, size, 0);
+	//int bytesRead = readMessage(sockfd, buf, size);
 	if(bytesRead < 0){
 		perror("ERROR RECEVING");
 		return -1;
@@ -103,7 +104,7 @@ int getInfo(struct messageInfo* msgStruct, char* buffer){
 	//take name
 	while(*buffer != '\0'){
 
-		if(*buffer == ':'){
+		if(*buffer == ' '){
 			bufI++;
 			buffer++;
 			break;
@@ -123,6 +124,7 @@ int getInfo(struct messageInfo* msgStruct, char* buffer){
 		return 0;
 	}
 	i = 0;
+	
 	//take message for chat
 	while(*buffer != '\0'){
 		msgStruct->msg[i] = *buffer;
@@ -131,13 +133,9 @@ int getInfo(struct messageInfo* msgStruct, char* buffer){
 		buffer++;
 	}
 	msgStruct->msg[i] = '\0';
-	msgStruct->msgSize = i - 1;
+	msgStruct->msgSize = i;
 	return err;
 }
-
-
-
-
 
 /*
 *	Function name:	readMessage
@@ -146,7 +144,7 @@ int getInfo(struct messageInfo* msgStruct, char* buffer){
 *	Return:			int - bytes read, 0 if complete
 *                        -1 on fail
 */
-static int readMessage(int sockfd, char *buffer, int size){
+int readMessage(int sockfd, char *buffer, int size){
 
     int bytesLeft = size, bytesRead;
     while(bytesLeft > 0){
@@ -174,7 +172,7 @@ static int readMessage(int sockfd, char *buffer, int size){
 *	Return:			int - bytes read, 0 if complete
 *                        -1 on fail
 */
-static int writeMessage(int sockfd, char *buffer, int size){
+int writeMessage(int sockfd, char *buffer, int size){
     int bytesLeft = size, bytesWritten;
     while(bytesLeft > 0){
         bytesWritten = write(sockfd, buffer, size);
