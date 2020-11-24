@@ -37,17 +37,46 @@ enum Protocol{
 	BYE,
 	NICK,	
 	READY,
-	RETRY,
+	RETRY,	
 	CHAT	//full message
 };
 
 typedef enum Protocol Proto;
 
 //uses sendto instead of write
+/*
+*	Function name:	sendMessage
+*	Description:	send a message with a protocol, message, and name.
+*					Message and name will be ignored if protocol doesn't allow it. 
+*					
+*	Parameters:		int sockfd: file descriptor
+*					Proto pro: enum protocol 
+*					char* name: name 
+*					char* message: message
+*					int nameSize: max size of name being sent
+*					int messageSize: max size of message being sent
+*	Return:			int - 0 on success, -1 on fail
+*/
 int sendMessage(int sockfd, Proto pro, char*name, char* message, int nameSize, int messageSize);
-//uses recv instead of read
+
+
+/*
+*	Function name:	receiveMessage
+*	Description:	uses recv instead of read
+*	Parameters:		int sockfd:
+*	Return:			int - 0 on success
+*/
 int receiveMessage(int sockfd, void* buf, int size);
 
+/*
+*	Function name:	getInfo
+*	Description:	parses a message from receiveMessage into messageInfo struct
+*					
+*	Parameters:		struct messageInfo* msgStruct: return info from buffer
+*					char* buffer: string with info from receiveMessage 
+*	Return:			int - 0 on success
+*						 -1 on failure
+*/
 int getInfo(struct messageInfo* msgStruct, char* buffer);
 
 //old uses read and write

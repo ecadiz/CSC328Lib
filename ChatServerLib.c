@@ -78,14 +78,23 @@ int sendMessage(int sockfd, Proto pro, char* nameStr, char* messageStr, int name
 			if(messageStr)
 				strcat(tempBuf, messageStr);
 			tempBuf[tempSize-1] = '\0';
-			
 			break;
 		case 2://NICK
-			tempSize = 1 + nameRealSize + 1;
-			tempBuf = (char*)malloc(tempSize);
-			strcpy(tempBuf,  "2");
-			strcat(tempBuf, nameStr);
-			tempBuf[tempSize-1] = '\0';
+			
+			if(nameStr){
+				tempSize = 1 + nameRealSize + 1;
+				tempBuf = (char*)malloc(tempSize);
+				strcpy(tempBuf,  "2");
+				strcat(tempBuf, nameStr);
+				tempBuf[tempSize-1] = '\0';
+			}else{
+				//only message is being sent
+				tempSize = 1 + 0 + messageRealSize + 1;
+				tempBuf = (char*)malloc(tempSize);
+				strcpy(tempBuf, "2 ");
+				strcat(tempBuf, messageStr);
+				tempBuf[tempSize - 1] = '\0';
+			}
 			break;
 		default:
 			printf("what?");
@@ -94,8 +103,8 @@ int sendMessage(int sockfd, Proto pro, char* nameStr, char* messageStr, int name
 	};
 	
 	
-	printf("\nTEMPBUF: [%s]",tempBuf);
-	printf("\ntempSize: %i\n",tempSize);
+	//printf("\nTEMPBUF: [%s]",tempBuf);
+	//printf("\ntempSize: %i\n",tempSize);
 	
 
 	int bytesSent = send(sockfd, tempBuf, tempSize, 0);
@@ -120,7 +129,6 @@ int receiveMessage(int sockfd, void* buf, int size){
 }
 
   
-//name: msg(eof)
 //-1 on error
 //0 on success
 int getInfo(struct messageInfo* msgStruct, char* buffer){

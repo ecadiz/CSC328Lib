@@ -31,7 +31,7 @@ int main(){
 	//0, 1,3,4
 	
 	printf("test1----------------------------------\n");
-	/*
+	
 	char str[] = "1k e";
 	struct messageInfo info;
 	int x = getInfo(&info, str);
@@ -53,25 +53,22 @@ int main(){
 	
 	
 	printf("test4----------------------------------");
-	char str3[] = "5Rod Hello there";
+	char str3[] = "2 hello";
 	x = getInfo(&info, str3);
 	printMessageInfo(&info);
 
 	printf("test5----------------------------------");
-	char str4[] = "5waterbottle:::::::Mcdonald hello";
+	//char str4[] = "2Jim";
 	
-	x = getInfo(&info, str4);
-	printMessageInfo(&info);
-	*/
+	//x = getInfo(&info, str4);
+	//printMessageInfo(&info);
+	
 	//////////////////////////Other
 	
 	
-	
-	sendMessage(1, CHAT, "bob", NULL, MAXNAME, MAXMESSAGE);
-	
-	sendMessage(1, NICK, "keabs", NULL, MAXNAME, 0);
-
-	sendMessage(1, CHAT, NULL, "Hello There", MAXNAME, MAXMESSAGE);
+	//sendMessage(1, NICK, NULL, NULL, MAXNAME, MAXMESSAGE);
+	//sendMessage(1, HELLO, "", NULL, MAXNAME, 0);
+	sendMessage(1, NICK, NULL, "Hello There", MAXNAME, MAXMESSAGE);
 
 	
 	/*int sockfd = open("testfile.txt", O_WRONLY | O_APPEND);
