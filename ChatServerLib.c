@@ -204,7 +204,7 @@ int getInfo(struct messageInfo* msgStruct, char* buffer){
 	}
 	//take name
 	while(*buffer != '\0'){
-
+		//space seperates the name and message
 		if(*buffer == ' '){
 			bufI++;
 			buffer++;
@@ -237,6 +237,8 @@ int getInfo(struct messageInfo* msgStruct, char* buffer){
 	msgStruct->msgSize = i;
 	return err;
 }
+
+
 
 /*
 *	Function name:	readMessage

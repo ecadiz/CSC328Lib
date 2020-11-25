@@ -7,7 +7,7 @@
 /*	Assignment:	Chat Server Application Library
 /*	Filename:	ChatServerLib.h
 /*	Purpose:	Library for a client and server
-/*	
+/*	readMessage and writeMessage, credit to utils.c by Dr. Frye
 */
 #include <unistd.h>
 #include <string.h>
@@ -39,6 +39,7 @@ enum Protocol{
 	CHAT	//full message
 };
 
+//enum protocol
 typedef enum Protocol Proto;
 
 //uses sendto instead of write
@@ -79,6 +80,7 @@ int receiveMessage(int sockfd, void* buf, int size);
 int getInfo(struct messageInfo* msgStruct, char* buffer);
 
 //old uses read and write
+//
 /*
 *	Function name:	readMessage
 *	Description:	read  
