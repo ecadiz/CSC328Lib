@@ -20,8 +20,6 @@
 
 #define MAXNAME 32
 #define MAXMESSAGE 1024
-//protocol int+ MAXNAME + : + MAXMESSAGE + 1(null)  
-//maxsize = 1 + 32 + 1 + 1024 + 1
 #define MAXSIZE (1 + MAXNAME + 1 + MAXMESSAGE + 1)
 
 struct messageInfo{
@@ -46,7 +44,7 @@ typedef enum Protocol Proto;
 //uses sendto instead of write
 /*
 *	Function name:	sendMessage
-*	Description:	send a message with a protocol, message, and name.
+*	Description:	send a message with a protocol using send, message, and name.
 *					Message and name will be ignored if protocol doesn't allow it. 
 *					
 *	Parameters:		int sockfd: file descriptor
@@ -59,11 +57,12 @@ typedef enum Protocol Proto;
 */
 int sendMessage(int sockfd, Proto pro, char*name, char* message, int nameSize, int messageSize);
 
-
 /*
 *	Function name:	receiveMessage
-*	Description:	uses recv instead of read
-*	Parameters:		int sockfd:
+*	Description:	uses recv
+*	Parameters:		int sockfd: file descriptor
+*					void* buf:	buffer to write into
+*					int size: size of buf
 *	Return:			int - 0 on success
 */
 int receiveMessage(int sockfd, void* buf, int size);
@@ -80,6 +79,25 @@ int receiveMessage(int sockfd, void* buf, int size);
 int getInfo(struct messageInfo* msgStruct, char* buffer);
 
 //old uses read and write
+/*
+*	Function name:	readMessage
+*	Description:	read  
+*	Parameters:		int sockfd: file descriptor
+*					char* buffer: buffer to read into
+*					int size:	size of above buffer
+*	Return:			int - 0 on success
+*						 -1 on failure
+*/
 int readMessage(int sockfd, char *buffer, int size);
+
+/*
+*	Function name:	writeMessage
+*	Description:	write 
+*	Parameters:		int sockfd: file descriptor
+*					char* buffer: buffer to write into
+*					int size: size of above buffer
+*	Return:			int - 0 on success
+*						 -1 on failure
+*/
 int writeMessage(int sockfd, char *buffer, int size);
 

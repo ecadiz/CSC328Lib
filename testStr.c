@@ -5,6 +5,8 @@
 #include <sys/types.h>
 #include <unistd.h>
 #include <fcntl.h>
+//testing the library
+
 
 
 void printMessageInfo(struct messageInfo* info){
@@ -14,11 +16,6 @@ void printMessageInfo(struct messageInfo* info){
 	printf("msgSize: %i\n", info->msgSize);
 	printf("nameSize: %i\n", info->nameSize);
 }
-
-//#NAME
-//#NAME: 
-//#NAME:message
-
 
 int main(){
 	
@@ -67,8 +64,9 @@ int main(){
 	
 	
 	//sendMessage(1, NICK, NULL, NULL, MAXNAME, MAXMESSAGE);
-	//sendMessage(1, HELLO, "", NULL, MAXNAME, 0);
-	sendMessage(1, NICK, NULL, "Hello There", MAXNAME, MAXMESSAGE);
+	sendMessage(1, CHAT, NULL, "hello", 10, 10);
+	sendMessage(1, CHAT, "name", "hello", 10, 10);
+	//sendMessage(1, NICK, NULL, "Hello There", MAXNAME, MAXMESSAGE);
 
 	
 	/*int sockfd = open("testfile.txt", O_WRONLY | O_APPEND);
